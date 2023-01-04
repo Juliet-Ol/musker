@@ -10,8 +10,9 @@ class UserAdmin(admin.ModelAdmin):
     # Just display username field on admin page
     fields = ["username"]
 
-#unregister initial User
+#Unregister initial User
 admin.site.unregister(User)
+
 #Reregister User
 admin.site.register(User, UserAdmin)
 
