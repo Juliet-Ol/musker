@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Profile
+from .models import Profile, Tweep
 
 def home(request):
-    return render(request, 'home.html', {})
+    if request.user.is_authenticated:
+        tweeps = Tweep.objects.all().order_by("-created_at")
+    return render(request, 'home.html', {"tweeps":tweeps})
 
 def profile_list(request):
     if request.user.is_authenticated:
