@@ -10,6 +10,7 @@ def home(request):
 def profile_list(request):
     if request.user.is_authenticated:
         profiles = Profile.objects.exclude(user=request.user)      #this excludes the person logged on from the list
+        
         return render(request, 'profile_list.html', {'profiles': profiles}) 
     else: 
         messages.success(request, 'You must be logged in to view this page..')
@@ -17,7 +18,8 @@ def profile_list(request):
 
 def profile(request, pk):
     if request.user.is_authenticated:
-        profile=Profile.objects.get(user_id=pk)
+        profile = Profile.objects.get(user_id=pk)
+        tweeps =Tweep.objects.filter(user_id=pk).order_by("-created_at")
 
         #Post Form Logic
         if request.method == "POST":
@@ -34,7 +36,7 @@ def profile(request, pk):
             current_user_profile.save()  
 
 
-        return render(request, "profile.html", {"profile":profile})   
+        return render(request, "profile.html", {"profile":profile, "tweeps":tweeps})   
 
     else: 
         messages.success(request, 'You must be logged in to view this page..')
