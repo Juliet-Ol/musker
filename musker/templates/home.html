@@ -2,4 +2,12 @@
 
 {% block content %}
     <h1>Tweeps!</h1>
+    {% for tweep in tweeps %}
+
+
+        <div class="alert alert-dark" role="alert">
+            {{ tweep }}
+        </div>
+         <br><br>
+    {% endfor %}
 {% endblock %}
