@@ -1,11 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Profile, Tweep
+from .forms import TweepForm
 
 def home(request):
     if request.user.is_authenticated:
+        form = TweepForm(request.POST or None)
+        if request.method == "POST":
+            tweep = form.save(commit=False)
+            tweep.user =request.user
+            tweep.save()
+            messages.success(request, 'Your Tweep has been posted..')
+            return redirect('home')
+
         tweeps = Tweep.objects.all().order_by("-created_at")
-    return render(request, 'home.html', {"tweeps":tweeps})
+        return render(request, 'home.html', {"tweeps":tweeps, "form":form})
+    else:
+        tweeps = Tweep.objects.all().order_by("-created_at")
+        return render(request, 'home.html', {"tweeps":tweeps})
 
 def profile_list(request):
     if request.user.is_authenticated:
