@@ -1,13 +1,38 @@
 {%extends 'base.html' %}
 
 {% block content %}
-    <h1>Tweeps!</h1>
-    {% for tweep in tweeps %}
 
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col-8">
+
+    <h1>Tweeps!</h1>
+    <br>
+    {% for tweep in tweeps %}
 
         <div class="alert alert-dark" role="alert">
             {{ tweep }}
         </div>
          <br><br>
     {% endfor %}
+   
+
+
+</div>    
+<div class="col-4">
+    <br><br><br>
+   
+    {% if form %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <button type="submit" class="btn btn-secondary">Tweep! </button>
+      </form>
+      {% endif %}
+</div>
+
+   
+
 {% endblock %}
